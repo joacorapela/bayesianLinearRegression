@@ -3,16 +3,13 @@ import numpy as np
 
 def batchWithSimplePrior(Phi, y, alpha, beta):
     """Performs batch linear regression with a simple prior.
-    $P(w)=\mathcal{N}(0,\alpha^{-1}I)$
+    :math:`P(w)=\\mathcal{N}(0,\\alpha^{-1}I)`
 
-    :param Phi: matrix of basis functions transformations of indendent
-    variables. $Phi\in\mathbb{R}^{NxP}$, where $N$ is the number of
-    observations and $P$ the number of basis functions.
-    $Phi[n,j]=\phi_j(\mathbf{x}_n)$.
+    :param Phi: matrix of basis functions transformations of indendent variables. :math:`\\text{Phi}\\in\\mathbb{R}^{NxP}`, where :math:`N` is the number of observations and :math:`P` the number of basis functions.  :math:`\\text{Phi}[n,j]=\\phi_j(\\mathbf{x}_n)`.
 
     :type  Phi: numpy array
 
-    :param y: dependent variable. $y\in\mathbb{R}^N$
+    :param y: dependent variable. :math:`y\\in\\mathbb{R}^N`
 
     :type  y: numpy array
 
@@ -23,6 +20,9 @@ def batchWithSimplePrior(Phi, y, alpha, beta):
     :param beta: likelihood precision
 
     :type  beta: double
+
+    :return: mean and covariance of the estimated coefficients
+    :rtype: mean: numpy array of size P; covariance: numpy array of size PxP
     """
 
     M = Phi.shape[1]
@@ -33,9 +33,34 @@ def batchWithSimplePrior(Phi, y, alpha, beta):
 
 
 def onlineUpdate(mn, Sn, phi, y, alpha, beta):
-    """Updates the posterior mean, mn, and posterior covariance, Sn, with the new
-    sample, phi (basis functions expansion of the independent variables) and y
-    (dependent variable.
+    """Updates the posterior mean, :math:`mn`, and posterior covariance, :math:`Sn`, with the new sample, :math:`phi` (basis functions expansion of the independent variables) and :math:`y` (dependent variable).
+
+    :type  mn: numpy array
+
+    :param mn: current posterior mean. :math:`mn\\in\\mathbb{R}^P`
+
+    :type  Sn: numpy array
+
+    :param Sn: current posterior covariance.  :math:`Sn\\in\\mathbb{R}^{P\\times P}`
+
+    :param phi: bais function expansion of independent variables. :math:`phi\\in\\mathbb{R}^P`
+
+    :type  phi: numpy array
+
+    :param y: dependent variable. :math:`y\\in\\mathbb{R}`
+
+    :type  y: double
+
+    :param alpha: prior precision
+
+    :type  alpha: double
+
+    :param beta: likelihood precision
+
+    :type  beta: double
+
+    :return: updated mean and covariance
+    :rtype: mean: numpy array of size P; covariance: numpy array of size PxP
     """
 
     aux1 = Sn @ phi
@@ -47,18 +72,19 @@ def onlineUpdate(mn, Sn, phi, y, alpha, beta):
     return mnp1, Snp1
 
 def predict(phi, mn, Sn, alpha, beta):
-    """Predicts the mean and variance of the dependent variable for a given
-    new set of indepedent variables with basis function expansion in phi.
+    """Predicts the mean and variance of the dependent variable for a given new set of indepedent variables with basis function expansion in phi.
 
-    :param phi: matrix of basis functions transformations of indendent
-    variables. $Phi\in\mathbb{R}^{P}$, where $P$ the number of basis functions.
-    $phi[j]=\phi_j(\mathbf{x})$.
+    :param phi: bais function expansion of independent variables. :math:`phi\\in\\mathbb{R}^P`
 
     :type  phi: numpy array
 
-    :param y: dependent variable. $y\in\mathbb{R}^N$
+    :type  mn: numpy array
 
-    :type  y: numpy array
+    :param mn: current posterior mean. :math:`mn\\in\\mathbb{R}^P`
+
+    :type  Sn: numpy array
+
+    :param Sn: current posterior covariance.  :math:`Sn\\in\\mathbb{R}^{P\\times P}`
 
     :param alpha: prior precision
 
@@ -67,6 +93,9 @@ def predict(phi, mn, Sn, alpha, beta):
     :param beta: likelihood precision
 
     :type  beta: double
+
+    :return: mean and variance of prediction
+    :rtype: mean: double; covariance: double
     """
 
     predicted_mean = np.dot(mN, phi)
