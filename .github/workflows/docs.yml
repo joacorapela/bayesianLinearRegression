@@ -1,5 +1,7 @@
 ﻿name: docs
 on: [push, pull_request, workflow_dispatch]
+permissions:
+    contents: write
 jobs:
   docs:
     runs-on: ubuntu-latest
@@ -20,5 +22,5 @@ jobs:
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/sphinx/build/
+          publish_dir: docs/build/
           force_orphan: true
