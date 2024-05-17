@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Bayesian Linear Regression's documentation (version 1)
+Welcome to Bayesian Linear Regression's documentation
 =====================================================
 
 .. toctree::
