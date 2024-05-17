@@ -1,0 +1,23 @@
+﻿bayesianLinearRegression
+========================
+
+.. automodule:: bayesianLinearRegression
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
