@@ -2,8 +2,10 @@ import numpy as np
 
 
 def batchWithSimplePrior(Phi, y, alpha, beta):
-    """Performs batch linear regression with a simple prior.
-    :math:`P(w)=\\mathcal{N}(0,\\alpha^{-1}I)`
+
+    """Performs batch linear regression with the simple prior
+    :math:`P(w)=\\mathcal{N}(0,\\alpha^{-1}I)`, using equations 3.53 and 3.54
+    from Bishop, 2006.
 
     :param Phi: matrix of basis functions transformations of indendent variables. :math:`\\text{Phi}\\in\\mathbb{R}^{NxP}`, where :math:`N` is the number of observations and :math:`P` the number of basis functions.  :math:`\\text{Phi}[n,j]=\\phi_j(\\mathbf{x}_n)`.
 
