@@ -1,2 +1,2 @@
-Demonstrations of Bayesian linear regression
-============================================
+Demonstrations
+==============
