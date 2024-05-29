@@ -8,8 +8,8 @@ of a linear regression model using simulate data.
 """
 
 #%%
-# Import requirments
-# ------------------
+# Import requirements
+# -------------------
 
 import numpy as np
 import scipy.stats
