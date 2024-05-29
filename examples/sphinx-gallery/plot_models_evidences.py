@@ -50,7 +50,7 @@ def buildDesignMatrix(x, basis_functions):
 # Define a function to generate polynomial data
 # ---------------------------------------------
 
-def generateData(x, sigma, coefs=np.array([-0.5, 0.5, -0.5, 0.5, -0.5])):
+def generateData(x, sigma, coefs):
     basis_functions = getPolynomialBasisFunctions(M=len(coefs)-1)
     Phi = buildDesignMatrix(x=x, basis_functions=basis_functions)
     y = Phi @ coefs
@@ -67,12 +67,16 @@ prior_precision = 10.0
 likelihood_precision = 10.0
 
 #%%
-# Generate train and test data
-# ----------------------------
+# Generate data
+# -------------
 
 N = 50
 x = 1.0 + np.random.uniform(size=N)
-_, y = generateData(x=x, sigma=1.0/likelihood_precision)
+
+# we generate data with M+1=5 coefficients, so that the marginalized log
+# likelihood should attain its maximum at M=4 (see Figure at the bottom).
+_, y = generateData(x=x, sigma=1.0/likelihood_precision,
+                    coefs=np.array([-0.5, 0.5, -0.5, 0.5, -0.5]))
 
 #%%
 # Calculate model evindences
@@ -90,8 +94,9 @@ for M in Ms:
         alpha=prior_precision, beta=likelihood_precision)
 
 #%%
-# Plot models' log evidences
-# --------------------------
+# Plot models' log evidences (log evidence should maximize for M=4; see
+# Generate data above)
+# -----------------------------------------------------------------
 
 fig = go.Figure()
 trace = go.Scatter(x=Ms, y=log_evidences, mode="lines+markers",
@@ -99,4 +104,4 @@ trace = go.Scatter(x=Ms, y=log_evidences, mode="lines+markers",
 fig.add_trace(trace)
 fig.update_layout(xaxis_title="M",
                   yaxis_title=r"$\log p(\mathbf{y}|\alpha,\beta)$")
-fig.show()
+fig
