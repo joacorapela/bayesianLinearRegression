@@ -1,10 +1,9 @@
-
-
 """
-Plot model evidence
-===================
+Model evidence
+==============
 
-Plot the evidence of models of different polynomial order.
+Calculation of the marginalized log likelihood for models of different
+polynomial order.
 
 """
 
@@ -105,3 +104,6 @@ fig.add_trace(trace)
 fig.update_layout(xaxis_title="M",
                   yaxis_title=r"$\log p(\mathbf{y}|\alpha,\beta)$")
 fig
+
+
+# sphinx_gallery_thumbnail_path = '_static/model_evidence.png'

@@ -2,8 +2,7 @@
 Batch Bayesian linear regression
 ================================
 
-The code below uses a batch algorithm to estimate the posterior of the weighs
-of a linear regression model using simulate data.
+Batch estimation the posterior of the weighs of the linear regression model.
 
 """
 
@@ -132,3 +131,5 @@ fig.update_yaxes(title_text="y")
 
 fig.add_trace(trace_data_points)
 fig
+
+# sphinx_gallery_thumbnail_path = '_static/bblr.png'
