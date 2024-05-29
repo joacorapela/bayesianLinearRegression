@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:01.431** total execution time for 1 file **from all galleries**:
+**00:01.403** total execution time for 3 files **from all galleries**:
 
 .. container::
 
@@ -32,6 +32,12 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
+   * - :ref:`sphx_glr_auto_examples_plot_predictive_distribution.py` (``../../examples/sphinx-gallery/plot_predictive_distribution.py``)
+     - 00:01.403
+     - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_batchBayesianLinearRegression.py` (``../../examples/sphinx-gallery/plot_batchBayesianLinearRegression.py``)
-     - 00:01.431
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_plot_online_bayesian_linear_regression.py` (``../../examples/sphinx-gallery/plot_online_bayesian_linear_regression.py``)
+     - 00:00.000
      - 0.0

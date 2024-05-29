@@ -1,7 +1,7 @@
 :orphan:
 
-Demonstrations of Bayesian linear regression
-============================================
+Demonstrations
+==============
 
 
 
@@ -28,6 +28,40 @@ Demonstrations of Bayesian linear regression
     </div>
 
 
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The code below demonstrates the use of the predictive distribution in Bayesian linear regressio...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_predictive_distribution_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_predictive_distribution.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Predictive distribution</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The code below uses the function bayesianLinearRegression.onlineUpdate to estimate the posterio...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_online_bayesian_linear_regression_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_online_bayesian_linear_regression.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Online Bayesian linear regression</div>
+    </div>
+
+
 .. thumbnail-parent-div-close
 
 .. raw:: html
@@ -39,6 +73,8 @@ Demonstrations of Bayesian linear regression
    :hidden:
 
    /auto_examples/plot_batchBayesianLinearRegression
+   /auto_examples/plot_predictive_distribution
+   /auto_examples/plot_online_bayesian_linear_regression
 
 
 .. only:: html
