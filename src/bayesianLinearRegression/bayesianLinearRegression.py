@@ -4,7 +4,7 @@ import numpy as np
 def batchWithSimplePrior(Phi, y, alpha, beta):
 
     """Performs batch linear regression with the simple prior
-    :math:`P(w)=\\mathcal{N}(0,\\alpha^{-1}I)`, using equations 3.53 and 3.54
+    :math:`P(w)=\\mathcal{N}(0,\\alpha^{-1}I)`. It uses equations 3.53 and 3.54
     from Bishop, 2006.
 
     :param Phi: matrix of basis functions transformations of indendent variables. :math:`\\text{Phi}\\in\\mathbb{R}^{NxP}`, where :math:`N` is the number of observations and :math:`P` the number of basis functions.  :math:`\\text{Phi}[n,j]=\\phi_j(\\mathbf{x}_n)`.
@@ -73,8 +73,10 @@ def onlineUpdate(mn, Sn, phi, y, alpha, beta):
 
     return mnp1, Snp1
 
-def predict(phi, mn, Sn, alpha, beta):
-    """Predicts the mean and variance of the dependent variable for a given new set of indepedent variables with basis function expansion in phi.
+def predict(phi, mn, Sn, beta):
+    """Predicts the mean and variance of the dependent variable for a given new
+    set of indepedent variables with basis function expansion in phi. It uses
+    equations 3.58 and 3.59 of Bishop, 2006.
 
     :param phi: bais function expansion of independent variables. :math:`phi\\in\\mathbb{R}^P`
 
@@ -88,6 +90,40 @@ def predict(phi, mn, Sn, alpha, beta):
 
     :param Sn: current posterior covariance.  :math:`Sn\\in\\mathbb{R}^{P\\times P}`
 
+    :param beta: likelihood precision
+
+    :type  beta: double
+
+    :return: mean and variance of prediction
+    :rtype: mean: double; variance: double
+    """
+
+    predicted_mean = np.dot(mn, phi)
+    predicted_var = 1.0/beta + np.dot(phi, np.dot(Sn, phi))
+
+    return predicted_mean, predicted_var
+
+
+def computeLogEvidence(Phi, y, mN, SN, alpha, beta):
+    """Calculcates the marginal log likelihood of a Bayesian linear regression
+    model.
+
+    :param Phi: matrix of basis functions transformations of indendent variables. :math:`\\text{Phi}\\in\\mathbb{R}^{NxP}`, where :math:`N` is the number of observations and :math:`P` the number of basis functions.  :math:`\\text{Phi}[n,j]=\\phi_j(\\mathbf{x}_n)`.
+
+    :type  Phi: numpy array
+
+    :param y: dependent variable. :math:`y\\in\\mathbb{R}^N`
+
+    :type  y: numpy array
+
+    :type  mN: numpy array
+
+    :param mN: current posterior mean. :math:`mn\\in\\mathbb{R}^P`
+
+    :type  SN: numpy array
+
+    :param SN: current posterior covariance.  :math:`Sn\\in\\mathbb{R}^{P\\times P}`
+
     :param alpha: prior precision
 
     :type  alpha: double
@@ -96,11 +132,17 @@ def predict(phi, mn, Sn, alpha, beta):
 
     :type  beta: double
 
-    :return: mean and variance of prediction
-    :rtype: mean: double; covariance: double
+    :return: marginal log likelihood
+    :rtype: double
     """
 
-    predicted_mean = np.dot(mN, phi)
-    predicted_var = 1.0/beta + np.dot(phi, np.dot(SN, phi))
+    N, M = Phi.shape
+    EmN = (beta/2.0*np.linalg.norm(y-np.dot(Phi, mN), 2)**2 +
+           alpha/2.0*np.linalg.norm(mN, 2)**2)
+    marginal_log_like = (M/2.0 * np.log(alpha) +
+                         N/2.0 * np.log(beta) -
+                         EmN +
+                         0.5 * np.log(np.linalg.det(SN)) -
+                         N/2.0 * np.log(2*np.pi))
+    return marginal_log_like
 
-    return predicted_mean, predicted_var
