@@ -8,6 +8,7 @@ Welcome to Bayesian Linear Regression's documentation
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
    :caption: Contents:
 
    auto_examples/index
