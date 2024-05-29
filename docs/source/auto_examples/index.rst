@@ -13,7 +13,24 @@ Demonstrations
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The code below uses a batch algorithm to estimate the posterior of the weighs of a linear regre...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Calculation of the marginalized log likelihood for models of different polynomial order.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_models_evidences_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_models_evidences.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Model evidence</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Batch estimation the posterior of the weighs of the linear regression model.">
 
 .. only:: html
 
@@ -30,7 +47,7 @@ Demonstrations
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The code below demonstrates the use of the predictive distribution in Bayesian linear regressio...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Calculation of the predictive istribution of Bayesian linear regression model.">
 
 .. only:: html
 
@@ -47,7 +64,7 @@ Demonstrations
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The code below uses the function bayesianLinearRegression.onlineUpdate to estimate the posterio...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Online estimation of the posterior of the weighs of a linear regression model. It reproduces Fi...">
 
 .. only:: html
 
@@ -72,6 +89,7 @@ Demonstrations
 .. toctree::
    :hidden:
 
+   /auto_examples/plot_models_evidences
    /auto_examples/plot_batchBayesianLinearRegression
    /auto_examples/plot_predictive_distribution
    /auto_examples/plot_online_bayesian_linear_regression

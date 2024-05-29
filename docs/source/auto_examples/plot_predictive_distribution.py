@@ -1,11 +1,8 @@
-
-
 """
 Predictive distribution
 =======================
 
-The code below demonstrates the use of the predictive distribution in Bayesian
-linear regression (i.e., :func:`bayesianLinearRegression.bayesianLinearRegression.predict`).
+Calculation of the predictive istribution of Bayesian linear regression model.
 
 """
 
@@ -168,3 +165,5 @@ fig.update_layout(xaxis_title="independent variable",
                   yaxis_title="dependent variable",
                   showlegend=False)
 fig
+
+# sphinx_gallery_thumbnail_path = '_static/predictive_distribution.png'

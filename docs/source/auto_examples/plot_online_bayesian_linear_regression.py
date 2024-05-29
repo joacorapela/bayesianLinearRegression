@@ -3,7 +3,8 @@
 Online Bayesian linear regression
 =================================
 
-The code below uses the function bayesianLinearRegression.onlineUpdate to estimate the posterior of the weighs of a linear regression model using simulate data. It reproduces Figure 3.7 from Bishop 2006.
+Online estimation of the posterior of the weighs of a linear regression model.
+It reproduces Figure 3.7 from Bishop 2006.
 
 """
 
@@ -168,3 +169,5 @@ for n, t in enumerate(y):
         fig.update_yaxes(title_text="y", row=index_sample+2, col=3)
 
 fig
+
+# sphinx_gallery_thumbnail_path = '_static/oblr.png'
