@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.1. bayesianLinearRegression package &#8212; Bayesian Linear Regression 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="2. API" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="bayesianlinearregression-package">
+<h1><span class="section-number">2.1. </span>bayesianLinearRegression package<a class="headerlink" href="#bayesianlinearregression-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2><span class="section-number">2.1.1. </span>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-bayesianLinearRegression.bayesianLinearRegression">
+<span id="bayesianlinearregression-bayesianlinearregression-module"></span><h2><span class="section-number">2.1.2. </span>bayesianLinearRegression.bayesianLinearRegression module<a class="headerlink" href="#module-bayesianLinearRegression.bayesianLinearRegression" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="bayesianLinearRegression.bayesianLinearRegression.batchWithSimplePrior">
+<span class="sig-prename descclassname"><span class="pre">bayesianLinearRegression.bayesianLinearRegression.</span></span><span class="sig-name descname"><span class="pre">batchWithSimplePrior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayesianLinearRegression/bayesianLinearRegression.html#batchWithSimplePrior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bayesianLinearRegression.bayesianLinearRegression.batchWithSimplePrior" title="Link to this definition">¶</a></dt>
+<dd><p>Performs batch linear regression with the simple prior
+<span class="math notranslate nohighlight">\(P(w)=\mathcal{N}(0,\alpha^{-1}I)\)</span>. It uses equations 3.53 and 3.54
+from Bishop, 2006.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Phi</strong> (<em>numpy array</em>) – matrix of basis functions transformations of indendent variables. <span class="math notranslate nohighlight">\(\text{Phi}\in\mathbb{R}^{NxP}\)</span>, where <span class="math notranslate nohighlight">\(N\)</span> is the number of observations and <span class="math notranslate nohighlight">\(P\)</span> the number of basis functions.  <span class="math notranslate nohighlight">\(\text{Phi}[n,j]=\phi_j(\mathbf{x}_n)\)</span>.</p></li>
+<li><p><strong>y</strong> (<em>numpy array</em>) – dependent variable. <span class="math notranslate nohighlight">\(y\in\mathbb{R}^N\)</span></p></li>
+<li><p><strong>alpha</strong> (<em>double</em>) – prior precision</p></li>
+<li><p><strong>beta</strong> (<em>double</em>) – likelihood precision</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mean and covariance of the estimated coefficients</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mean: numpy array of size P; covariance: numpy array of size PxP</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bayesianLinearRegression.bayesianLinearRegression.computeLogEvidence">
+<span class="sig-prename descclassname"><span class="pre">bayesianLinearRegression.bayesianLinearRegression.</span></span><span class="sig-name descname"><span class="pre">computeLogEvidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayesianLinearRegression/bayesianLinearRegression.html#computeLogEvidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bayesianLinearRegression.bayesianLinearRegression.computeLogEvidence" title="Link to this definition">¶</a></dt>
+<dd><p>Calculcates the marginal log likelihood of a Bayesian linear regression
+model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Phi</strong> (<em>numpy array</em>) – matrix of basis functions transformations of indendent variables. <span class="math notranslate nohighlight">\(\text{Phi}\in\mathbb{R}^{NxP}\)</span>, where <span class="math notranslate nohighlight">\(N\)</span> is the number of observations and <span class="math notranslate nohighlight">\(P\)</span> the number of basis functions.  <span class="math notranslate nohighlight">\(\text{Phi}[n,j]=\phi_j(\mathbf{x}_n)\)</span>.</p></li>
+<li><p><strong>y</strong> (<em>numpy array</em>) – dependent variable. <span class="math notranslate nohighlight">\(y\in\mathbb{R}^N\)</span></p></li>
+<li><p><strong>mN</strong> (<em>numpy array</em>) – current posterior mean. <span class="math notranslate nohighlight">\(mn\in\mathbb{R}^P\)</span></p></li>
+<li><p><strong>SN</strong> (<em>numpy array</em>) – current posterior covariance.  <span class="math notranslate nohighlight">\(Sn\in\mathbb{R}^{P\times P}\)</span></p></li>
+<li><p><strong>alpha</strong> (<em>double</em>) – prior precision</p></li>
+<li><p><strong>beta</strong> (<em>double</em>) – likelihood precision</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>marginal log likelihood</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bayesianLinearRegression.bayesianLinearRegression.onlineUpdate">
+<span class="sig-prename descclassname"><span class="pre">bayesianLinearRegression.bayesianLinearRegression.</span></span><span class="sig-name descname"><span class="pre">onlineUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayesianLinearRegression/bayesianLinearRegression.html#onlineUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bayesianLinearRegression.bayesianLinearRegression.onlineUpdate" title="Link to this definition">¶</a></dt>
+<dd><p>Updates the posterior mean, <span class="math notranslate nohighlight">\(mn\)</span>, and posterior covariance, <span class="math notranslate nohighlight">\(Sn\)</span>, with the new sample, <span class="math notranslate nohighlight">\(phi\)</span> (basis functions expansion of the independent variables) and <span class="math notranslate nohighlight">\(y\)</span> (dependent variable).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mn</strong> (<em>numpy array</em>) – current posterior mean. <span class="math notranslate nohighlight">\(mn\in\mathbb{R}^P\)</span></p></li>
+<li><p><strong>Sn</strong> (<em>numpy array</em>) – current posterior covariance.  <span class="math notranslate nohighlight">\(Sn\in\mathbb{R}^{P\times P}\)</span></p></li>
+<li><p><strong>phi</strong> (<em>numpy array</em>) – bais function expansion of independent variables. <span class="math notranslate nohighlight">\(phi\in\mathbb{R}^P\)</span></p></li>
+<li><p><strong>y</strong> (<em>double</em>) – dependent variable. <span class="math notranslate nohighlight">\(y\in\mathbb{R}\)</span></p></li>
+<li><p><strong>alpha</strong> (<em>double</em>) – prior precision</p></li>
+<li><p><strong>beta</strong> (<em>double</em>) – likelihood precision</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>updated mean and covariance</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mean: numpy array of size P; covariance: numpy array of size PxP</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bayesianLinearRegression.bayesianLinearRegression.predict">
+<span class="sig-prename descclassname"><span class="pre">bayesianLinearRegression.bayesianLinearRegression.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayesianLinearRegression/bayesianLinearRegression.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bayesianLinearRegression.bayesianLinearRegression.predict" title="Link to this definition">¶</a></dt>
+<dd><p>Predicts the mean and variance of the dependent variable for a given new
+set of indepedent variables with basis function expansion in phi. It uses
+equations 3.58 and 3.59 of Bishop, 2006.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>phi</strong> (<em>numpy array</em>) – bais function expansion of independent variables. <span class="math notranslate nohighlight">\(phi\in\mathbb{R}^P\)</span></p></li>
+<li><p><strong>mn</strong> (<em>numpy array</em>) – current posterior mean. <span class="math notranslate nohighlight">\(mn\in\mathbb{R}^P\)</span></p></li>
+<li><p><strong>Sn</strong> (<em>numpy array</em>) – current posterior covariance.  <span class="math notranslate nohighlight">\(Sn\in\mathbb{R}^{P\times P}\)</span></p></li>
+<li><p><strong>beta</strong> (<em>double</em>) – likelihood precision</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mean and variance of prediction</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mean: double; variance: double</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-bayesianLinearRegression">
+<span id="module-contents"></span><h2><span class="section-number">2.1.3. </span>Module contents<a class="headerlink" href="#module-bayesianLinearRegression" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Bayesian Linear Regression</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">1. Demonstrations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">2. API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. bayesianLinearRegression package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html"><span class="section-number">2. </span>API</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter"><span class="section-number">2. </span>API</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Joaquin Rapela.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/bayesianLinearRegression.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

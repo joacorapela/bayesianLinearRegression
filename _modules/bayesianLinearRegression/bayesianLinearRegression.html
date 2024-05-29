@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bayesianLinearRegression.bayesianLinearRegression &#8212; Bayesian Linear Regression 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for bayesianLinearRegression.bayesianLinearRegression</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="batchWithSimplePrior">
+<a class="viewcode-back" href="../../bayesianLinearRegression.html#bayesianLinearRegression.bayesianLinearRegression.batchWithSimplePrior">[docs]</a>
+<span class="k">def</span> <span class="nf">batchWithSimplePrior</span><span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs batch linear regression with the simple prior</span>
+<span class="sd">    :math:`P(w)=\\mathcal{N}(0,\\alpha^{-1}I)`. It uses equations 3.53 and 3.54</span>
+<span class="sd">    from Bishop, 2006.</span>
+
+<span class="sd">    :param Phi: matrix of basis functions transformations of indendent variables. :math:`\\text{Phi}\\in\\mathbb{R}^{NxP}`, where :math:`N` is the number of observations and :math:`P` the number of basis functions.  :math:`\\text{Phi}[n,j]=\\phi_j(\\mathbf{x}_n)`.</span>
+
+<span class="sd">    :type  Phi: numpy array</span>
+
+<span class="sd">    :param y: dependent variable. :math:`y\\in\\mathbb{R}^N`</span>
+
+<span class="sd">    :type  y: numpy array</span>
+
+<span class="sd">    :param alpha: prior precision</span>
+
+<span class="sd">    :type  alpha: double</span>
+
+<span class="sd">    :param beta: likelihood precision</span>
+
+<span class="sd">    :type  beta: double</span>
+
+<span class="sd">    :return: mean and covariance of the estimated coefficients</span>
+<span class="sd">    :rtype: mean: numpy array of size P; covariance: numpy array of size PxP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">M</span> <span class="o">=</span> <span class="n">Phi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">SNinv</span> <span class="o">=</span> <span class="n">alpha</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">Phi</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Phi</span>
+    <span class="n">mN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">SNinv</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">beta</span> <span class="o">*</span> <span class="n">Phi</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">SN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">SNinv</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mN</span><span class="p">,</span> <span class="n">SN</span></div>
+
+
+
+<div class="viewcode-block" id="onlineUpdate">
+<a class="viewcode-back" href="../../bayesianLinearRegression.html#bayesianLinearRegression.bayesianLinearRegression.onlineUpdate">[docs]</a>
+<span class="k">def</span> <span class="nf">onlineUpdate</span><span class="p">(</span><span class="n">mn</span><span class="p">,</span> <span class="n">Sn</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Updates the posterior mean, :math:`mn`, and posterior covariance, :math:`Sn`, with the new sample, :math:`phi` (basis functions expansion of the independent variables) and :math:`y` (dependent variable).</span>
+
+<span class="sd">    :type  mn: numpy array</span>
+
+<span class="sd">    :param mn: current posterior mean. :math:`mn\\in\\mathbb{R}^P`</span>
+
+<span class="sd">    :type  Sn: numpy array</span>
+
+<span class="sd">    :param Sn: current posterior covariance.  :math:`Sn\\in\\mathbb{R}^{P\\times P}`</span>
+
+<span class="sd">    :param phi: bais function expansion of independent variables. :math:`phi\\in\\mathbb{R}^P`</span>
+
+<span class="sd">    :type  phi: numpy array</span>
+
+<span class="sd">    :param y: dependent variable. :math:`y\\in\\mathbb{R}`</span>
+
+<span class="sd">    :type  y: double</span>
+
+<span class="sd">    :param alpha: prior precision</span>
+
+<span class="sd">    :type  alpha: double</span>
+
+<span class="sd">    :param beta: likelihood precision</span>
+
+<span class="sd">    :type  beta: double</span>
+
+<span class="sd">    :return: updated mean and covariance</span>
+<span class="sd">    :rtype: mean: numpy array of size P; covariance: numpy array of size PxP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">aux1</span> <span class="o">=</span> <span class="n">Sn</span> <span class="o">@</span> <span class="n">phi</span>
+    <span class="n">aux2</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">beta</span> <span class="o">+</span> <span class="n">phi</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Sn</span> <span class="o">@</span> <span class="n">phi</span><span class="p">)</span>
+
+    <span class="n">Snp1</span> <span class="o">=</span> <span class="n">Sn</span> <span class="o">-</span> <span class="n">aux2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">aux1</span><span class="p">,</span> <span class="n">aux1</span><span class="p">)</span>
+    <span class="n">mnp1</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="n">Snp1</span> <span class="o">@</span> <span class="n">phi</span> <span class="o">+</span> <span class="n">mn</span> <span class="o">-</span> <span class="n">aux2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">mn</span><span class="p">)</span> <span class="o">*</span> <span class="n">Sn</span> <span class="o">@</span> <span class="n">phi</span>
+
+    <span class="k">return</span> <span class="n">mnp1</span><span class="p">,</span> <span class="n">Snp1</span></div>
+
+
+<div class="viewcode-block" id="predict">
+<a class="viewcode-back" href="../../bayesianLinearRegression.html#bayesianLinearRegression.bayesianLinearRegression.predict">[docs]</a>
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">mn</span><span class="p">,</span> <span class="n">Sn</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Predicts the mean and variance of the dependent variable for a given new</span>
+<span class="sd">    set of indepedent variables with basis function expansion in phi. It uses</span>
+<span class="sd">    equations 3.58 and 3.59 of Bishop, 2006.</span>
+
+<span class="sd">    :param phi: bais function expansion of independent variables. :math:`phi\\in\\mathbb{R}^P`</span>
+
+<span class="sd">    :type  phi: numpy array</span>
+
+<span class="sd">    :type  mn: numpy array</span>
+
+<span class="sd">    :param mn: current posterior mean. :math:`mn\\in\\mathbb{R}^P`</span>
+
+<span class="sd">    :type  Sn: numpy array</span>
+
+<span class="sd">    :param Sn: current posterior covariance.  :math:`Sn\\in\\mathbb{R}^{P\\times P}`</span>
+
+<span class="sd">    :param beta: likelihood precision</span>
+
+<span class="sd">    :type  beta: double</span>
+
+<span class="sd">    :return: mean and variance of prediction</span>
+<span class="sd">    :rtype: mean: double; variance: double</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">predicted_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mn</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+    <span class="n">predicted_var</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">beta</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Sn</span><span class="p">,</span> <span class="n">phi</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">predicted_mean</span><span class="p">,</span> <span class="n">predicted_var</span></div>
+
+
+
+<div class="viewcode-block" id="computeLogEvidence">
+<a class="viewcode-back" href="../../bayesianLinearRegression.html#bayesianLinearRegression.bayesianLinearRegression.computeLogEvidence">[docs]</a>
+<span class="k">def</span> <span class="nf">computeLogEvidence</span><span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mN</span><span class="p">,</span> <span class="n">SN</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculcates the marginal log likelihood of a Bayesian linear regression</span>
+<span class="sd">    model.</span>
+
+<span class="sd">    :param Phi: matrix of basis functions transformations of indendent variables. :math:`\\text{Phi}\\in\\mathbb{R}^{NxP}`, where :math:`N` is the number of observations and :math:`P` the number of basis functions.  :math:`\\text{Phi}[n,j]=\\phi_j(\\mathbf{x}_n)`.</span>
+
+<span class="sd">    :type  Phi: numpy array</span>
+
+<span class="sd">    :param y: dependent variable. :math:`y\\in\\mathbb{R}^N`</span>
+
+<span class="sd">    :type  y: numpy array</span>
+
+<span class="sd">    :type  mN: numpy array</span>
+
+<span class="sd">    :param mN: current posterior mean. :math:`mn\\in\\mathbb{R}^P`</span>
+
+<span class="sd">    :type  SN: numpy array</span>
+
+<span class="sd">    :param SN: current posterior covariance.  :math:`Sn\\in\\mathbb{R}^{P\\times P}`</span>
+
+<span class="sd">    :param alpha: prior precision</span>
+
+<span class="sd">    :type  alpha: double</span>
+
+<span class="sd">    :param beta: likelihood precision</span>
+
+<span class="sd">    :type  beta: double</span>
+
+<span class="sd">    :return: marginal log likelihood</span>
+<span class="sd">    :rtype: double</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Phi</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">EmN</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta</span><span class="o">/</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="n">mN</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
+           <span class="n">alpha</span><span class="o">/</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">mN</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">marginal_log_like</span> <span class="o">=</span> <span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">+</span>
+                         <span class="n">N</span><span class="o">/</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">-</span>
+                         <span class="n">EmN</span> <span class="o">+</span>
+                         <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">SN</span><span class="p">))</span> <span class="o">-</span>
+                         <span class="n">N</span><span class="o">/</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">marginal_log_like</span></div>
+
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Bayesian Linear Regression</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">1. Demonstrations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">2. API</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Joaquin Rapela.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
