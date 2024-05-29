@@ -12,7 +12,7 @@ Welcome to Bayesian Linear Regression's documentation
    :caption: Contents:
 
    auto_examples/index
-   api
+   modules
 
 Indices and tables
 ==================

@@ -29,6 +29,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx_gallery.gen_gallery',
+    'sphinx.ext.viewcode',
 ]
 
 templates_path = ['_templates']
